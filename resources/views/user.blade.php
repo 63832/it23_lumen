@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Användare</h1>
-        @if($me->admin || (isset($user) && $me->id ==$user->id ))
+        @if($me->admin)
             <form method="post">
                 @if(isset($user))
                     <input type="hidden" name="id" value="{{$user->id}}">
@@ -22,13 +22,12 @@
                     <input name="namn" required placeholder="Ange namn" value="{{$user->namn ?? ''}}">
                 </label>
                 <label>Epost:
-                    <input type="email" name="epost" required placeholder="Ange epost"
-                           value="{{$user->epost ?? ''}}">
+                    <input type="email" name="epost" required placeholder="Ange epost" value="{{$user->epost ?? ''}}">
                 </label>
                 <label>Lösenord:
                     <input type="password" name="losenord" placeholder="Ange lösenord">
                 </label>
-                @if($me->admin && (isset($user) &&  ($me->id!==$user->id)))
+                @if(isset($user))
                     <label>
                         <input type="hidden" name="admin" value="0">
                         <input type="checkbox" name="admin" value="1"
@@ -37,7 +36,7 @@
                 @endif
                 <input type="submit" value="Spara">
                 <input type="reset" value="Ångra">
-                @if($me->admin && (isset($user) &&  ($me->id!==$user->id)))
+                @if(isset($user))
                     <input type="submit" name="delete" value="Ta bort">
                 @endif
             </form>
@@ -48,7 +47,7 @@
                 @foreach($lista as $u)
                     <li>
                         {{$u->id}}.
-                        @if($me->admin || $me->id==$u->id )
+                        @if($me->admin)
                             <a href="/anvandare/{{$u->id}}">{{$u->namn}}</a>
                         @else
                             {{$u->namn}}
